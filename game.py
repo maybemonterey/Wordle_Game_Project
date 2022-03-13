@@ -8,7 +8,7 @@ from wordleplayer import WordlePlayer
 from textColor import BoldColor
 from store import Store
 
-settings = Setting()
+settings = Setting.instance()
 settings.setSetting('maxguess', 6)
 settings.setSetting('difficulty', 'normal')
 settings.setSetting('prefix', '/')
