@@ -8,6 +8,11 @@ def init():
     command_map["info"] = displayInfo
 
 
+"""
+This class processes commands
+"""
+
+
 def process_settings(args):
     settings = args['settings']
     color = args['color']
@@ -64,7 +69,6 @@ def displayInfo(args):
 
 @Singleton
 class CommandProcessor:
-
     def __init__(self):
         self.args = {}
 
