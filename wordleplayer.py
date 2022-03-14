@@ -1,7 +1,12 @@
 from textColor import BoldColor
+from store import Store
+from setting import Setting
+
+setting = Setting.instance()
 
 class WordlePlayer():
     def __init__(self, name, total_tries):
+        self.store = Store(setting)
         self.name = name
         self.total_tries = total_tries # Max number of tries a player has to guess the correct answer
 
@@ -25,12 +30,13 @@ class WordlePlayer():
         return self.name
 
     def updateStats(self, won, tries):
-        color = BoldColor()
+        color = BoldColor.instance()
         # GENERAL UPDATES
         self.played_games += 1
 
         # CONDITIONALS
         if won:
+            self.store.coin_balance += self.store.win_rate
             self.won_games += 1
             self.current_streak += 1
             self.graph_dictionary[tries] += 1
@@ -70,7 +76,7 @@ class WordlePlayer():
                 self.guess_graph += color.PURPLE + color.BOLD + f'{x}' + color.END + ' : ' + color.RED + self.graph_tags[x] + color.END + '\n'
 
         except:
-            print("There was an error in updating your stats. Please try again later.")
+            print(color.RED + color.BOLD + "There was an error in updating your stats. Please try again later.\n\n" + color.END)
 
     def winPercentage(self):
         try:
@@ -89,7 +95,7 @@ class WordlePlayer():
         return self.max_streak
 
     def displayStats(self):
-        color = BoldColor()
+        color = BoldColor.instance()
         possessive_stats = f"{self.name}'s Stats:"
         print(color.PURPLE + color.BOLD + color.UNDERLINE + possessive_stats.upper() + color.END)
         print(color.BLUE + color.BOLD + "Games Played: ", end='' + color.END)
@@ -108,12 +114,3 @@ class WordlePlayer():
 
     def setName(self, name):
         self.name = name
-
-
-# Test Code
-# A = WordlePlayer('Aarushi', 6)
-# A.updateStats(True, 3)
-# A.updateStats(True, 4)
-# A.updateStats(True, 4)
-# A.updateStats(False, 7)
-# A.displayStats()
